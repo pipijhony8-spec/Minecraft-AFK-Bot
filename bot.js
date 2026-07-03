@@ -4,7 +4,7 @@ const config = require('./config.json');
 const bot = mineflayer.createBot({
   host: config.163.5.201.3,
   port: config.14157,
-  username: config.botUsername,
+  username: config.Mybot,
   auth: 'offline',
   version: false,
   viewDistance: config.botChunk
