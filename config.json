@@ -1,5 +1,5 @@
 {
-  "serverHost": "144.31.46.15:14324",
+  "serverHost": "144.31.46.15",
   "serverPort": 14324,
   "botUsername": "MyBot",
   "botChunk": 1
