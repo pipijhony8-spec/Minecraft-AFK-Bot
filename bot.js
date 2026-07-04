@@ -2,7 +2,7 @@ const mineflayer = require('mineflayer');
 const config = require('./config.json');
 
 const bot = mineflayer.createBot({
-  host: config.144.31.46.15:14324,
+  host: config.144.31.46.15,
   port: config.14324,
   username: config.MyBot,
   auth: 'offline',
