@@ -64,3 +64,14 @@ bot.on('error', (err) => {
 bot.on('end', () => {
   console.log('⛔️ Bot Disconnected!');
 });
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+  res.send('Bot 7/24 Aktif!');
+});
+
+app.listen(port, () => {
+  console.log(`Web sunucusu ${port} portunda çalışıyor.`);
+});
