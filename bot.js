@@ -2,7 +2,7 @@ const mineflayer = require('mineflayer');
 const config = require('./config.json');
 
 const bot = mineflayer.createBot({
-  host: config.silversmp31.minekeep.gg,
+  host: config.144.31.46.15:14324,
   port: config.25565,
   username: config.MyBot,
   auth: 'offline',
