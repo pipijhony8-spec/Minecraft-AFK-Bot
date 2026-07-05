@@ -2,6 +2,33 @@ const mineflayer = require('mineflayer');
 const config = require('./config.json');
 
 const bot = mineflayer.createBot({
+  // Botun kullanacağı güvenli bir şifre belirle (Kendi şifrenle değiştir!)
+const botSifresi = "rokibaba!"; 
+
+bot.on('spawn', () => {
+    console.log("Bot sunucuya başarıyla giriş yaptı!");
+});
+
+// Sunucudan gelen mesajları dinleyen fonksiyon
+bot.on('message', (jsonMsg) => {
+    const mesaj = jsonMsg.toString();
+
+    // Eğer sunucu kayıt olmanı istiyorsa (/register şifre şifre)
+    if (mesaj.includes('/register') || mesaj.includes('kayıt ol') || mesaj.includes('/kayit')) {
+        setTimeout(() => {
+            bot.chat(`/register ${rokibaba}
+            console.log("Otomatik kayıt işlemi yapıldı!");
+        }, 1500); // Sunucuya yüklenmemek için 1.5 saniye bekleyip yazar
+    }
+
+    // Eğer sunucu giriş yapmanı istiyorsa (/login şifre)
+    if (mesaj.includes('/login') || mesaj.includes('giriş yap')) {
+        setTimeout(() => {
+            bot.chat(`/login ${rokibaba}`);
+            console.log("Otomatik giriş işlemi yapıldı!");
+        }, 1500);
+    }
+});
   host: config.serverHost,
   port: config.serverPort,
   username: config.MyBot,
