@@ -1,104 +1,81 @@
 const mineflayer = require('mineflayer');
-const config = require('./config.json');
-
-const bot = mineflayer.createBot({
-  // Botun kullanacağı güvenli bir şifre belirle (Kendi şifrenle değiştir!)
-const botSifresi = "rokibaba!"; 
-
-bot.on('spawn', () => {
-    console.log("Bot sunucuya başarıyla giriş yaptı!");
-});
-
-// Sunucudan gelen mesajları dinleyen fonksiyon
-bot.on('message', (jsonMsg) => {
-    const mesaj = jsonMsg.toString();
-
-    // Eğer sunucu kayıt olmanı istiyorsa (/register şifre şifre)
-    if (mesaj.includes('/register') || mesaj.includes('kayıt ol') || mesaj.includes('/kayit')) {
-        setTimeout(() => {
-            bot.chat(`/register ${rokibaba}
-            console.log("Otomatik kayıt işlemi yapıldı!");
-        }, 1500); // Sunucuya yüklenmemek için 1.5 saniye bekleyip yazar
-    }
-
-    // Eğer sunucu giriş yapmanı istiyorsa (/login şifre)
-    if (mesaj.includes('/login') || mesaj.includes('giriş yap')) {
-        setTimeout(() => {
-            bot.chat(`/login ${rokibaba}`);
-            console.log("Otomatik giriş işlemi yapıldı!");
-        }, 1500);
-    }
-});
-  host: config.serverHost,
-  port: config.serverPort,
-  username: config.MyBot,
-  auth: 'offline',
-  version: false,
-  viewDistance: config.botChunk
-});
-
-let movementPhase = 0;
-const STEP_INTERVAL = 1500;
-const STEP_SPEED    = 1;
-const JUMP_DURATION = 500;
-
-bot.on('spawn', () => {
-  setTimeout(() => {
-    bot.setControlState('sneak', true);
-    console.log(`✅ ${config.botUsername} is Ready!`);
-  }, 3000);
-
-  setTimeout(movementCycle, STEP_INTERVAL);
-});
-
-function movementCycle() {
-  if (!bot.entity) return;
-
-  switch (movementPhase) {
-    case 0:
-      bot.setControlState('forward', true);
-      bot.setControlState('back', false);
-      bot.setControlState('jump', false);
-      break;
-    case 1:
-      bot.setControlState('forward', false);
-      bot.setControlState('back', true);
-      bot.setControlState('jump', false);
-      break;
-    case 2:
-      bot.setControlState('forward', false);
-      bot.setControlState('back', false);
-      bot.setControlState('jump', true);
-      setTimeout(() => {
-        bot.setControlState('jump', false);
-      }, JUMP_DURATION);
-      break;
-    case 3:
-      bot.setControlState('forward', false);
-      bot.setControlState('back', false);
-      bot.setControlState('jump', false);
-      break;
-  }
-
-  movementPhase = (movementPhase + 1) % 4;
-
-  setTimeout(movementCycle, STEP_INTERVAL);
-}
-
-bot.on('error', (err) => {
-  console.error('⚠️ Error:', err);
-});
-bot.on('end', () => {
-  console.log('⛔️ Bot Disconnected!');
-});
 const express = require('express');
+
+// 1. RENDER İÇİN WEB SUNUCUSU (UptimeRobot ile botun uyumasını engeller)
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('Bot 7/24 Aktif!');
+    res.send("made by rokibaba - Bot 7/24 Aktif!");
 });
 
-app.listen(port, () => {
-  console.log(`Web sunucusu ${port} portunda çalışıyor.`);
+app.listen(PORT, () => {
+    console.log(`Web sunucusu ${PORT} portunda çalışıyor.`);
 });
+
+// 2. MINECRAFT BOT AYARLARI
+const botAyarlari = {
+    host: '144.31.46.15',
+    port: 14324,
+    username: 'nuekkis_bot' // Botun oyundan atılmaması için sabit adı
+};
+
+const botSifresi = "rokibaba"; // Şifren tam istediğin gibi "rokibaba" yapıldı
+
+let bot;
+
+function botuBaslat() {
+    bot = mineflayer.createBot(botAyarlari);
+
+    // Bot sunucuya ilk adımı attığında
+    bot.on('spawn', () => {
+        console.log("made by rokibaba - Bot başarıyla giriş yaptı!");
+        
+        // Zıplama döngüsü (Her 3 saniyede bir zıplar)
+        setInterval(() => {
+            if (bot && bot.entity) {
+                bot.setControlState('jump', true);
+                setTimeout(() => {
+                    if (bot && bot.entity) bot.setControlState('jump', false);
+                }, 500);
+            }
+        }, 3000);
+    });
+
+    // Otomatik Giriş ve Kayıt Sistemi
+    bot.on('message', (jsonMsg) => {
+        const mesaj = jsonMsg.toString();
+
+        // Eğer sunucu kayıt olmanı istiyorsa (Tek şifreli sistem için düzenlendi)
+        if (mesaj.includes('/register') || mesaj.includes('kayıt ol') || mesaj.includes('/kayit')) {
+            setTimeout(() => {
+                bot.chat(`/register ${botSifresi}`); // Burası artık tek şifre gönderiyor abi
+                console.log("Otomatik tek şifreli kayıt işlemi yapıldı!");
+            }, 1500);
+        }
+
+        // Eğer sunucu giriş yapmanı istiyorsa
+        if (mesaj.includes('/login') || mesaj.includes('giriş yap')) {
+            setTimeout(() => {
+                bot.chat(`/login ${botSifresi}`);
+                console.log("Otomatik giriş işlemi yapıldı!");
+            }, 1500);
+        }
+    });
+
+    // Hata oluşursa botun tamamen çökmesini engelle
+    bot.on('error', (err) => {
+        console.log(`Bot hatası: ${err.message}`);
+    });
+
+    // Bot sunucudan düşerse 10 saniye sonra otomatik geri bağlanır
+    bot.on('end', () => {
+        console.log("Bot sunucudan düştü, 10 saniye sonra tekrar bağlanıyor...");
+        setTimeout(() => {
+            botuBaslat();
+        }, 10000);
+    });
+}
+
+// Sistemi çalıştır
+botuBaslat();
