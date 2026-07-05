@@ -1,4 +1,5 @@
 {
+ {
   "name": "nuekkis-afk-bot",
   "version": "1.0.0",
   "description": "An AFK bot that moves on-site to keep Aternos servers open 24/7. Not only for Aternos but also applies for different services.",
@@ -9,7 +10,7 @@
   "author": "nuekkis",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.19.2",
     "mineflayer": "^4.29.0"
   }
 }
-  
