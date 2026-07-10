@@ -15,7 +15,7 @@ app.listen(PORT, () => {
 
 // 2. MINECRAFT BOT AYARLARI
 const botAyarlari = {
-    host: '163.5.201.2',
+    host: 'silverboxpvp.mcsh.io',
     port: 1272,
     username: 'nuekkis_bot' // Botun oyundan atılmaması için sabit adı
 };
