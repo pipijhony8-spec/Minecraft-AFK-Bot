@@ -49,7 +49,7 @@ function botuBaslat() {
         // Eğer sunucu kayıt olmanı istiyorsa (Tek şifreli sistem için düzenlendi)
         if (mesaj.includes('/register') || mesaj.includes('kayıt ol') || mesaj.includes('/kayit')) {
             setTimeout(() => {
-                bot.chat(`/register ${botSifresi}`); // Burası artık tek şifre gönderiyor abi
+                bot.chat(`/register ${rokibaba} ${rokibaba}); // Burası artık tek şifre gönderiyor abi
                 console.log("Otomatik tek şifreli kayıt işlemi yapıldı!");
             }, 1500);
         }
